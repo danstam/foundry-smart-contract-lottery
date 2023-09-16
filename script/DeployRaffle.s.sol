@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.18;
+pragma solidity ^0.8.19;
 
-import {Script} from "../lib/forge-std/src/Script.sol";
-import {Raffle} from "../src/Raffle.sol";
+import {Script} from "forge-std/Script.sol";
 import {HelperConfig} from "./HelperConfig.s.sol";
-import {AddConsumer, CreateSubscription, FundSubscription} from "./interactions.s.sol";
+import {Raffle} from "../src/Raffle.sol";
+import {AddConsumer, CreateSubscription, FundSubscription} from "./Interactions.s.sol";
 
 contract DeployRaffle is Script {
     function run() external returns (Raffle, HelperConfig) {
-        HelperConfig helperConfig = new HelperConfig();
+        HelperConfig helperConfig = new HelperConfig(); // This comes with our mocks!
         AddConsumer addConsumer = new AddConsumer();
         (
             uint64 subscriptionId,
@@ -20,7 +20,6 @@ contract DeployRaffle is Script {
             address link,
             uint256 deployerKey
         ) = helperConfig.activeNetworkConfig();
-        //create subscription id
 
         if (subscriptionId == 0) {
             CreateSubscription createSubscription = new CreateSubscription();
@@ -37,6 +36,7 @@ contract DeployRaffle is Script {
                 deployerKey
             );
         }
+
         vm.startBroadcast(deployerKey);
         Raffle raffle = new Raffle(
             subscriptionId,
@@ -48,6 +48,7 @@ contract DeployRaffle is Script {
         );
         vm.stopBroadcast();
 
+        // We already have a broadcast in here
         addConsumer.addConsumer(
             address(raffle),
             vrfCoordinatorV2,
