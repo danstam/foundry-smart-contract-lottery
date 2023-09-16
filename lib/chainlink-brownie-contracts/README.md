@@ -8,3 +8,4 @@ This repository is a slimmed down version of Chainlink's official repo. It clone
 ## IMPORTANT
 As of v1.2.0 and onward, all the releases of this package are going to match the [@chainlink/contracts NPM tags](https://www.npmjs.com/package/@chainlink/contracts). 
 So the versioning will look "backwards", but we are starting with v0.2.1
+.
